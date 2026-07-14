@@ -1,4 +1,3 @@
-fixed_app_html = '''
 <!DOCTYPE html>
 <html lang="en">
 
@@ -359,6 +358,12 @@ fixed_app_html = '''
   <script src="/static/js/player.js"></script>
   <script src="/static/js/app.js"></script>
   <script>
+    // Compatibility: app.js defines showPlaylist/showTab, but if scripts fail to load,
+    // avoid crashing inline onclick handlers.
+    window.showPlaylist = window.showPlaylist || function () { console.warn('showPlaylist not loaded'); };
+    window.showTab = window.showTab || function () { };
+
+
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/static/js/sw.js').then(() => {
         console.log('Thoufify Service Worker registered');
@@ -371,8 +376,6 @@ fixed_app_html = '''
 
 </html>'''
 
-with open('/mnt/agents/output/app.html', 'w', encoding='utf-8') as f:
-f.write(fixed_app_html)
+</body>
 
-print("✅ Fixed app.html created!")
-print("Changes: url_for() -> direct /static/ paths")
+</html>

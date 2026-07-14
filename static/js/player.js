@@ -9,7 +9,9 @@ let isShuffle = false;
 let isRepeat = false;
 let volume = 70;
 let isMuted = false;
-let songs = [];
+// Use shared global songs list populated by app.js
+window.songs = window.songs || [];
+let songs = window.songs;
 let likedSongs = new Set();
 let loopInterval = null;
 let songStartTime = 0;
@@ -59,7 +61,7 @@ function initPlayer() {
     const err = audio.error;
     let msg = 'Error playing song';
     if (err) {
-      switch(err.code) {
+      switch (err.code) {
         case 1: msg = 'Audio download aborted'; break;
         case 2: msg = 'Network error - check connection'; break;
         case 3: msg = 'Audio decoding error'; break;
@@ -293,11 +295,11 @@ function updatePlayerUI(song) {
   if (artImg && song.cover) {
     artImg.src = song.cover;
     artImg.style.display = 'block';
-    artImg.onerror = function() {
+    artImg.onerror = function () {
       this.style.display = 'none';
       if (artDiv) artDiv.style.background = 'linear-gradient(135deg, #e50914, #b20710)';
     };
-    artImg.onload = function() {
+    artImg.onload = function () {
       this.style.display = 'block';
     };
   }

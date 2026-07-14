@@ -25,7 +25,7 @@ async function loadData() {
     const songsRes = await fetch('/api/songs');
     if (!songsRes.ok) throw new Error('Failed to load songs');
     allSongs = await songsRes.json();
-    songs = allSongs;
+    window.songs = allSongs;
     console.log('Loaded', allSongs.length, 'songs');
 
     const playlistsRes = await fetch('/api/playlists');

@@ -69,6 +69,7 @@ async function downloadSong(songId, audioUrl, coverUrl) {
 
 // Download current playing song
 async function downloadCurrentSong() {
+  const songs = window.songs || [];
   if (currentSongIndex === -1 || !songs[currentSongIndex]) {
     showToast('Play a song first');
     return;
