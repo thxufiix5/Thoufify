@@ -15,11 +15,16 @@ from flask import Flask, render_template, jsonify, send_from_directory, request,
 from flask_cors import CORS
 from Crypto.Cipher import DES
 
-app = Flask(__name__, static_folder='static', template_folder='templates')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+app = Flask(__name__, 
+            static_folder=os.path.join(BASE_DIR, 'static'),
+            template_folder=os.path.join(BASE_DIR, 'templates'))
 CORS(app)
 
-MUSIC_DIR = os.path.join(app.static_folder, 'music')
-IMAGES_DIR = os.path.join(app.static_folder, 'images')
+# FIX: Vercel-la /tmp use pannanum (read-only file system)
+MUSIC_DIR = '/tmp/music'
+IMAGES_DIR = '/tmp/images'
 os.makedirs(MUSIC_DIR, exist_ok=True)
 os.makedirs(IMAGES_DIR, exist_ok=True)
 
@@ -259,12 +264,12 @@ def get_playlists():
         'liked': {'title': 'Liked Songs', 'desc': 'Your favorite tracks', 'cover': 'https://images.unsplash.com/photo-1493225255756-d9584f8606e5?w=400&h=400&fit=crop', 'songs': []}
     }
 
-# ========== ROUTES ==========
 # Static files route for Vercel
 @app.route('/static/<path:filename>')
 def serve_static(filename):
     return send_from_directory(os.path.join(BASE_DIR, 'static'), filename)
 
+# ========== ROUTES ==========
 @app.route('/')
 def intro():
     return render_template('intro.html')
