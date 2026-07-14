@@ -1,0 +1,21 @@
+{
+  "name": "Thoufify - Premium Music",
+  "short_name": "Thoufify",
+  "description": "Premium music streaming with JioSaavn",
+  "start_url": "/app",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#e50914",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192/e50914/ffffff?text=T",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://via.placeholder.com/512/e50914/ffffff?text=T",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

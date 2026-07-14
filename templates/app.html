@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thoufify - Premium Music</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='js/manifest.json') }}">
+</head>
+
+<body>
+  <div class="thoufify-app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo" onclick="showTab('home')">
+        <div class="logo-badge" aria-label="Spotify style logo">
+          <svg class="spotify-mark" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.82 14.57a.73.73 0 0 1-1 .25c-2.8-1.7-6.32-2.08-10.44-1.14a.75.75 0 0 1-.93-.57.75.75 0 0 1 .57-.94c4.45-.95 8.32-.54 11.45 1.32a.74.74 0 0 1 .35 1.08Zm1.36-3.16a.93.93 0 0 1-1.26.33C13.9 11.93 10.2 11.49 6.8 12.4a.93.93 0 0 1-1.2-.67.93.93 0 0 1 .68-1.2c3.86-1.12 8.08-.64 11.18 1.44a.93.93 0 0 1 .32 1.27Zm.2-3.2c-3.7-2.23-9.86-2.44-13.4-1.34a1.08 1.08 0 0 1-1.38-.74 1.08 1.08 0 0 1 .74-1.38c4.06-1.24 10.77-1 14.88 1.56a1.08 1.08 0 0 1-.47 2.06Z" />
+          </svg>
+        </div>
+        <span>Thoufify</span>
+      </div>
+      <nav class="nav-main">
+        <button class="nav-item active" data-tab="home" onclick="showTab('home', this)">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.5 3.5a1 1 0 0 0-1 0L4 8.5v11.3c0 .55.45 1 1 1h5v-6h3v6h5c.55 0 1-.45 1-1V8.5l-6.5-5z" />
+          </svg>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" data-tab="search" onclick="showTab('search', this)">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+          </svg>
+          <span>Search</span>
+        </button>
+        <button class="nav-item" data-tab="library" onclick="showTab('library', this)">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z" />
+          </svg>
+          <span>Your Library</span>
+        </button>
+      </nav>
+      <div class="nav-sep"></div>
+      <div class="section-title">Playlists</div>
+      <div class="playlist-nav" id="playlistNav">
+        <button class="nav-item" onclick="showPlaylist('liked')">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+          <span>Liked Songs</span>
+          <span class="download-badge" id="likedCount">0</span>
+        </button>
+        <button class="nav-item" onclick="showPlaylist('tamil')">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+          </svg>
+          <span>Tamil Hits</span>
+        </button>
+        <button class="nav-item" onclick="showPlaylist('hindi')">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+          </svg>
+          <span>Hindi Hits</span>
+        </button>
+        <button class="nav-item" onclick="showPlaylist('malayalam')">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+          </svg>
+          <span>Malayalam Hits</span>
+        </button>
+        <button class="nav-item" onclick="showPlaylist('english')">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+          </svg>
+          <span>English Hits</span>
+        </button>
+      </div>
+      <div class="offline-status" id="offlineStatus">
+        <span class="dot"></span>
+        <span>Online</span>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <header class="header">
+        <div class="header-nav">
+          <button class="nav-arrow" onclick="historyBack()">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+            </svg>
+          </button>
+          <button class="nav-arrow" onclick="historyForward()">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+            </svg>
+          </button>
+        </div>
+        <div class="search-box" id="searchBox">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+          </svg>
+          <input type="text" placeholder="What do you want to play?" id="searchInput"
+            oninput="handleSearch(this.value)">
+        </div>
+        <div class="user-actions">
+          <button class="btn-premium">Explore Premium</button>
+          <div class="avatar">T</div>
+        </div>
+      </header>
+
+      <div class="content" id="content">
+        <!-- HOME TAB -->
+        <div class="tab-content active" id="tab-home">
+          <div class="hero-banner">
+            <div class="hero-art" id="heroArt">
+              <img src="https://c.saavncdn.com/web/jioSaavn-Logo.png" alt="Album" id="heroImg"
+                onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#e50914,#b20710)'"
+                onload="this.style.display='block'">
+              <div class="hero-art-badge" aria-label="Spotify style badge">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.82 14.57a.73.73 0 0 1-1 .25c-2.8-1.7-6.32-2.08-10.44-1.14a.75.75 0 0 1-.93-.57.75.75 0 0 1 .57-.94c4.45-.95 8.32-.54 11.45 1.32a.74.74 0 0 1 .35 1.08Zm1.36-3.16a.93.93 0 0 1-1.26.33C13.9 11.93 10.2 11.49 6.8 12.4a.93.93 0 0 1-1.2-.67.93.93 0 0 1 .68-1.2c3.86-1.12 8.08-.64 11.18 1.44a.93.93 0 0 1 .32 1.27Zm.2-3.2c-3.7-2.23-9.86-2.44-13.4-1.34a1.08 1.08 0 0 1-1.38-.74 1.08 1.08 0 0 1 .74-1.38c4.06-1.24 10.77-1 14.88 1.56a1.08 1.08 0 0 1-.47 2.06Z" />
+                </svg>
+              </div>
+            </div>
+            <div class="hero-info">
+              <span class="hero-label">Trending Now</span>
+              <h1>Thoufify Mix 2026</h1>
+              <p class="hero-meta">Tamil, Hindi, Malayalam & English hits 2026 • <span id="heroSongCount">0</span> songs
+              </p>
+              <div class="hero-actions">
+                <button class="btn-play-large" onclick="playPlaylist('tamil')" id="heroPlayBtn">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </button>
+                <button class="btn-heart-large" onclick="toggleHeroLike()" id="heroLikeBtn">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                  </svg>
+                </button>
+                <button class="btn-more">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <section class="section">
+            <div class="section-header">
+              <h2>Tamil Trending 2026</h2>
+              <a href="#" onclick="showPlaylist('tamil')">Show all</a>
+            </div>
+            <div class="cards-grid" id="recentCards"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-header">
+              <h2>Hindi Trending 2026</h2>
+              <a href="#" onclick="showPlaylist('hindi')">Show all</a>
+            </div>
+            <div class="cards-grid" id="madeForYouCards"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-header">
+              <h2>English Trending 2026</h2>
+              <a href="#" onclick="showPlaylist('english')">Show all</a>
+            </div>
+            <div class="cards-grid" id="jumpBackCards"></div>
+          </section>
+        </div>
+
+        <!-- SEARCH TAB -->
+        <div class="tab-content" id="tab-search">
+          <div class="search-hero" id="searchBrowse">
+            <h2>Browse all</h2>
+            <div class="browse-grid" id="browseGrid"></div>
+          </div>
+          <div class="search-results" id="searchResults" style="display:none">
+            <h2>Search Results</h2>
+            <div class="song-list" id="searchSongList"></div>
+          </div>
+        </div>
+
+        <!-- LIBRARY TAB -->
+        <div class="tab-content" id="tab-library">
+          <div class="library-header">
+            <h2>Your Library</h2>
+            <div class="library-filters">
+              <button class="filter-btn active" onclick="setFilter(this, 'playlists')">Playlists</button>
+              <button class="filter-btn" onclick="setFilter(this, 'artists')">Artists</button>
+              <button class="filter-btn" onclick="setFilter(this, 'albums')">Albums</button>
+            </div>
+          </div>
+          <div class="library-grid" id="libraryGrid"></div>
+        </div>
+
+        <!-- PLAYLIST TAB -->
+        <div class="tab-content" id="tab-playlist">
+          <div class="playlist-hero" id="playlistHero">
+            <div class="playlist-art" id="playlistArt">
+              <img src="" alt="Playlist" id="playlistArtImg"
+                onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#e50914,#b20710)'"
+                onload="this.style.display='block'">
+            </div>
+            <div class="playlist-info">
+              <span class="playlist-label">Playlist</span>
+              <h1 id="playlistTitle">Playlist</h1>
+              <p id="playlistDesc">Description</p>
+              <div class="playlist-actions">
+                <button class="btn-play-large" onclick="playCurrentPlaylist()">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </button>
+                <button class="btn-heart-large" onclick="togglePlaylistLike()">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="song-list-header">
+            <span class="col-hash">#</span>
+            <span class="col-title">Title</span>
+            <span class="col-album">Album</span>
+            <span class="col-date">Language</span>
+            <span class="col-dur">Duration</span>
+            <span class="col-dl"></span>
+          </div>
+          <div class="song-list" id="playlistSongs"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Player Bar -->
+  <div class="player-bar" id="playerBar">
+    <div class="player-left">
+      <div class="player-art" id="playerArt">
+        <img src="" alt="" id="playerArtImg" style="display:none"
+          onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#e50914,#b20710)'"
+          onload="this.style.display='block'">
+      </div>
+      <div class="player-meta">
+        <div class="player-title" id="playerTitle">Choose a song</div>
+        <div class="player-artist" id="playerArtist">-</div>
+      </div>
+      <button class="player-like" id="playerLikeBtn" onclick="togglePlayerLike()">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+      </button>
+      <button class="player-download" id="playerDlBtn" onclick="downloadCurrentSong()" title="Download for offline">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+        </svg>
+      </button>
+      <span class="dl-status" id="dlStatus"></span>
+    </div>
+
+    <div class="player-center">
+      <div class="player-controls">
+        <button class="ctrl-btn" title="Shuffle" onclick="toggleShuffle()" id="shuffleBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M10.59 9.59L6 14.17 6 6 8 6 8 11.17 11.17 8 13.59 10.41 10.41 13.59 8 11.17 8 16 6 16 6 9.83 1.41 14.41 0 13 4.59 8.41 0 4 1.41 2.59 6 7.17 6 0 8 0 8 5.17 11.17 2 13.59 4.41 10.41 7.59 8 5.17 8 10 6 10 6 3.83z" />
+          </svg>
+        </button>
+        <button class="ctrl-btn" onclick="prevSong()">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+          </svg>
+        </button>
+        <button class="ctrl-btn play-btn" onclick="togglePlay()" id="playBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </button>
+        <button class="ctrl-btn" onclick="nextSong()">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+          </svg>
+        </button>
+        <button class="ctrl-btn" title="Repeat" onclick="toggleRepeat()" id="repeatBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z" />
+          </svg>
+        </button>
+      </div>
+      <div class="progress-area">
+        <span class="time" id="currTime">0:00</span>
+        <div class="progress-track" id="progressTrack" onclick="seek(event)">
+          <div class="progress-fill" id="progressFill"></div>
+          <div class="progress-thumb" id="progressThumb"></div>
+        </div>
+        <span class="time" id="totalTime">2:00</span>
+      </div>
+    </div>
+
+    <div class="player-right">
+      <button class="ctrl-btn lyrics-btn" title="Lyrics">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+        </svg>
+      </button>
+      <button class="ctrl-btn queue-btn" title="Queue">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z" />
+        </svg>
+      </button>
+      <button class="ctrl-btn device-btn" title="Connect to a device">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4V6zm19 2h-6c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1zm-1 9h-4v-7h4v7z" />
+        </svg>
+      </button>
+      <div class="volume-area">
+        <button class="ctrl-btn" onclick="toggleMute()" id="muteBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+          </svg>
+        </button>
+        <div class="volume-track" id="volumeTrack" onclick="setVolume(event)">
+          <div class="volume-fill" id="volumeFill"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden Audio Element -->
+  <audio id="audioPlayer" preload="metadata" loop></audio>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="{{ url_for('static', filename='js/offline.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/player.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('{{ url_for("static", filename="sw.js") }}').then(() => {
+        console.log('Thoufify Service Worker registered');
+      }).catch(err => {
+        console.log('SW failed:', err);
+      });
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thoufify - Intro</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #000;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    height: 100vh;
+    width: 100vw;
+  }
+  .intro-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    position: relative;
+    perspective: 1000px;
+  }
+  .intro-text {
+    font-size: 10vw;
+    font-weight: 900;
+    color: #e50914;
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    animation: netflixZoom 4.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    text-shadow: 
+      0 0 40px rgba(229, 9, 20, 0.5),
+      0 0 80px rgba(229, 9, 20, 0.3),
+      0 0 120px rgba(229, 9, 20, 0.1);
+    opacity: 0;
+    transform: scale(0.05) translateZ(-500px);
+    position: relative;
+    z-index: 10;
+  }
+  .light-beam {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 0;
+    background: linear-gradient(180deg, transparent, rgba(229,9,20,0.9), rgba(229,9,20,0.4), transparent);
+    transform: translate(-50%, -50%);
+    animation: beamGrow 3.5s ease-out forwards;
+    z-index: 5;
+    filter: blur(1px);
+  }
+  .light-beam::before, .light-beam::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(229,9,20,0.1), transparent);
+    filter: blur(20px);
+  }
+  .particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(229, 9, 20, 0.5);
+    border-radius: 50%;
+    animation: float 8s infinite ease-in-out;
+  }
+  .vignette {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.8) 100%);
+    pointer-events: none;
+    z-index: 8;
+  }
+  .loading-bar {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 3px;
+    background: #222;
+    border-radius: 2px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeIn 0.5s ease 0.5s forwards;
+    z-index: 20;
+  }
+  .loading-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: #e50914;
+    border-radius: 2px;
+    animation: loadBar 4s ease-out forwards;
+    box-shadow: 0 0 10px rgba(229,9,20,0.5);
+  }
+  @keyframes netflixZoom {
+    0% { transform: scale(0.05) translateZ(-500px); opacity: 0; letter-spacing: 40px; }
+    15% { opacity: 1; }
+    40% { transform: scale(1.1) translateZ(0); letter-spacing: 8px; }
+    60% { transform: scale(1.2) translateZ(100px); opacity: 1; }
+    85% { transform: scale(2.5) translateZ(300px); opacity: 0.8; }
+    100% { transform: scale(4) translateZ(500px); opacity: 0; letter-spacing: 2px; }
+  }
+  @keyframes beamGrow {
+    0% { height: 0; opacity: 0; }
+    30% { height: 50vh; opacity: 1; }
+    70% { height: 80vh; opacity: 0.8; }
+    100% { height: 120vh; opacity: 0; }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes loadBar {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(-100vh) translateX(80px); opacity: 0; }
+  }
+  .fade-out {
+    animation: fadeOut 0.8s ease forwards !important;
+  }
+  @keyframes fadeOut {
+    to { opacity: 0; visibility: hidden; }
+  }
+  @media (max-width: 768px) {
+    .intro-text { font-size: 14vw; letter-spacing: 6px; }
+  }
+</style>
+</head>
+<body>
+  <div class="intro-container" id="intro">
+    <div class="particles" id="particles"></div>
+    <div class="vignette"></div>
+    <div class="light-beam"></div>
+    <div class="intro-text" id="introText">THOUFIFY</div>
+    <div class="loading-bar">
+      <div class="loading-bar-fill"></div>
+    </div>
+  </div>
+
+  <script>
+    // Create particles
+    const particles = document.getElementById('particles');
+    for (let i = 0; i < 40; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.animationDelay = Math.random() * 8 + 's';
+      p.style.animationDuration = (5 + Math.random() * 6) + 's';
+      p.style.width = (1 + Math.random() * 3) + 'px';
+      p.style.height = p.style.width;
+      particles.appendChild(p);
+    }
+
+    // Generate intro sound effect using Web Audio API
+    function playIntroSound() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioContext();
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.type = 'sine';
+        filter.type = 'lowpass';
+        filter.frequency.value = 2000;
+
+        const now = ctx.currentTime;
+        osc.frequency.setValueAtTime(180, now);
+        osc.frequency.exponentialRampToValueAtTime(220, now + 0.15);
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.3, now + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+
+        osc.start(now);
+        osc.stop(now + 0.3);
+
+        setTimeout(() => {
+          const osc2 = ctx.createOscillator();
+          const gain2 = ctx.createGain();
+          const filter2 = ctx.createBiquadFilter();
+          osc2.connect(filter2);
+          filter2.connect(gain2);
+          gain2.connect(ctx.destination);
+          osc2.type = 'sine';
+          filter2.type = 'lowpass';
+          filter2.frequency.value = 3000;
+          const t2 = ctx.currentTime;
+          osc2.frequency.setValueAtTime(350, t2);
+          osc2.frequency.exponentialRampToValueAtTime(440, t2 + 0.2);
+          gain2.gain.setValueAtTime(0, t2);
+          gain2.gain.linearRampToValueAtTime(0.3, t2 + 0.05);
+          gain2.gain.exponentialRampToValueAtTime(0.01, t2 + 0.4);
+          osc2.start(t2);
+          osc2.stop(t2 + 0.4);
+        }, 200);
+
+        setTimeout(() => {
+          const osc3 = ctx.createOscillator();
+          const gain3 = ctx.createGain();
+          osc3.connect(gain3);
+          gain3.connect(ctx.destination);
+          osc3.type = 'sawtooth';
+          const t3 = ctx.currentTime;
+          osc3.frequency.setValueAtTime(60, t3);
+          osc3.frequency.exponentialRampToValueAtTime(40, t3 + 0.5);
+          gain3.gain.setValueAtTime(0, t3);
+          gain3.gain.linearRampToValueAtTime(0.15, t3 + 0.1);
+          gain3.gain.exponentialRampToValueAtTime(0.01, t3 + 1.5);
+          osc3.start(t3);
+          osc3.stop(t3 + 1.5);
+        }, 400);
+
+      } catch (e) {
+        console.log('Audio not supported');
+      }
+    }
+
+    // Play sound on load
+    window.addEventListener('load', () => {
+      setTimeout(playIntroSound, 500);
+    });
+
+    // Auto redirect after intro animation
+    setTimeout(() => {
+      document.getElementById('intro').classList.add('fade-out');
+      setTimeout(() => {
+        window.location.href = '/app';
+      }, 800);
+    }, 5000);
+
+    // Click to skip
+    document.addEventListener('click', () => {
+      document.getElementById('intro').classList.add('fade-out');
+      setTimeout(() => {
+        window.location.href = '/app';
+      }, 800);
+    }, { once: true });
+  </script>
+</body>
+</html>
