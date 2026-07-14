@@ -1,3 +1,4 @@
+fixed_app_html = '''
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,8 +8,8 @@
   <title>Thoufify - Premium Music</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link rel="manifest" href="{{ url_for('static', filename='js/manifest.json') }}">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="manifest" href="/static/js/manifest.json">
 </head>
 
 <body>
@@ -354,12 +355,12 @@
   <!-- Toast Notification -->
   <div class="toast" id="toast"></div>
 
-  <script src="{{ url_for('static', filename='js/offline.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/player.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="/static/js/offline.js"></script>
+  <script src="/static/js/player.js"></script>
+  <script src="/static/js/app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('{{ url_for("static", filename="sw.js") }}').then(() => {
+      navigator.serviceWorker.register('/static/js/sw.js').then(() => {
         console.log('Thoufify Service Worker registered');
       }).catch(err => {
         console.log('SW failed:', err);
@@ -368,4 +369,10 @@
   </script>
 </body>
 
-</html>
+</html>'''
+
+with open('/mnt/agents/output/app.html', 'w', encoding='utf-8') as f:
+f.write(fixed_app_html)
+
+print("✅ Fixed app.html created!")
+print("Changes: url_for() -> direct /static/ paths")
