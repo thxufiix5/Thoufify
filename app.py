@@ -15,11 +15,16 @@ from flask import Flask, render_template, jsonify, send_from_directory, request,
 from flask_cors import CORS
 from Crypto.Cipher import DES
 
-app = Flask(__name__, static_folder='static', template_folder='templates')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+app = Flask(__name__, 
+            static_folder=os.path.join(BASE_DIR, 'static'),
+            template_folder=os.path.join(BASE_DIR, 'templates'))
 CORS(app)
 
-MUSIC_DIR = os.path.join(app.static_folder, 'music')
-IMAGES_DIR = os.path.join(app.static_folder, 'images')
+# FIX: Vercel-la /tmp use pannanum (read-only file system)
+MUSIC_DIR = '/tmp/music'
+IMAGES_DIR = '/tmp/images'
 os.makedirs(MUSIC_DIR, exist_ok=True)
 os.makedirs(IMAGES_DIR, exist_ok=True)
 
