@@ -9,25 +9,11 @@
     "routes": [
         {
             "src": "/static/(.*)",
-            "dest": "/static/$1",
-            "headers": {
-                "Cache-Control": "public, max-age=31536000, immutable"
-            }
-        },
-        {
-            "src": "/api/(.*)",
-            "dest": "app.py"
-        },
-        {
-            "src": "/app",
-            "dest": "app.py"
+            "dest": "/static/$1"
         },
         {
             "src": "/(.*)",
             "dest": "app.py"
         }
-    ],
-    "env": {
-        "FLASK_ENV": "production"
-    }
+    ]
 }
